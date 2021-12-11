@@ -1,0 +1,86 @@
+<html>
+
+<head>
+  {% include "bootstrap.html" %}
+  {% load static %}
+</head>
+
+<body>
+  {% include "navigation.html" %}
+  <div class="container justify-content-center">
+    <div class="jumbotron">
+      <h1 style="text-align:center">Search</h1>
+      <table class="row justify-content-center">
+        <tr>
+          <th><a href="/search/"> All </a></th>
+          <th><a href="/gamesearch/"> Games </a></th>
+          <th><a href="/playersearch/"> Players </a></th>
+          <th><a href="/search/"> Guilds </a></th>
+        </tr>
+      </table>
+      <form method="POST">
+        {% csrf_token %}
+        <table class="row justify-content-center">
+          {{ search_form.as_table }}
+          <tr class="row justify-content-center">
+            <td>
+              <input type="submit" class="btn btn-primary" name="search" value="Search">
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+
+    {% if searched %}
+      {% if search_type == 0 %}
+      <div class="container justify-content-center">
+        <div class="row">
+          <table class="col-6 table table-striped" border="1">
+            <tr><th>Search Results: Games</th></tr>
+            {% for item in search_results.games %}
+            <tr><td>{{ item.name }}</td></tr>
+            {% endfor %}
+          </table>
+          <table class="col-6 table table-striped" border="1">
+            <tr><th>Search Results: Players</th></tr>
+            {% for item in search_results.players %}
+            <tr><td>{{ item.name }}</td></tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if search_type == 1 %}
+      <div class="container justify-content-center">
+        <div class="row">
+          <table class="table table-striped" border="1">
+            <tr><th>Search Results: Games</th></tr>
+            {% for item in search_results.games %}
+            <tr><td>{{ item.name }}</td></tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if search_type == 2 %}
+      <div class="container justify-content-center">
+        <div class="row">
+          <table class="table table-striped" border="1">
+            <tr><th>Search Results: Players</th></tr>
+            {% for item in search_results.players %}
+            <tr><td>{{ item.name }}</td></tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+      {% endif %}
+    {% elif not search_results and searched %}
+    <p style="text-align:center">~ Search results for course {{ search_criteria.0 }} on {{ search_criteria.1 }} ~</p>
+    <p style="text-align:center">Nothing matches your search criteria.</p>
+    {% endif %}
+  </div>
+</body>
+
+</html>

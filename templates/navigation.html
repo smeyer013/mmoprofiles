@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">MMO-Profiles</a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    {% if user.is_authenticated %}
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/search/">Search</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <a role="button" class="btn btn-outline-success my-2 my-sm-0 ml-2 mr-2" href="/profile">Profile</a>
+    </form>
+    <form class="form-inline my-2 my-lg-0">
+      <a role="button" class="btn btn-outline-success my-2 my-sm-0" href="/logout">Logout</a>
+    </form>
+    {% endif %}
+  </div>
+</nav>
+  

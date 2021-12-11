@@ -1,0 +1,71 @@
+<html>
+
+<head>
+  {% include "bootstrap.html" %}
+  {% load static %}
+</head>
+
+<body>
+  {% include "navigation.html" %}
+  <div class="container justify-content-center">
+    <div class="jumbotron">
+      <h1 style="text-align:center">Profile</h1>
+      {% if not games %}
+      <p style="text-align:center">You haven't set up any games yet.</p>
+      <table class="row justify-content-center">
+        <th>
+          <a class="btn btn-primary" href="/profile/game/">Add Game</a>
+        </th>
+      </table>
+      {% else %}
+      <p style="text-align:center">Your Games</p>
+      <table border="1">
+        <tr>
+          <th>Game/Spec</th>
+          <th>Actions</th>
+        </tr>
+        {% for game in games %}
+        <tr>
+          {% if game.active %}
+            {% if game.level == "" %}
+              <td>(Active) {{ game.game }}</td>
+            {% else %}
+              <td>(Active) {{ game.game }} - Lvl. {{ game.level }}</td>
+            {% endif %}
+          {% else %}
+            {% if game.level == "" %}
+              <td>(Inactive) {{ game.game }}</td>
+            {% else %}
+              <td>(Inactive) {{ game.game }} - Lvl. {{ game.level }}</td>
+            {% endif %}
+          {% endif %}
+          <td>
+            <a class="btn btn-primary" href="/profile/edit/game/{{ game.id }}/">Edit</a>
+            <a class="btn btn-primary" href="/profile/?deletegame={{ game.id }}">Delete</a>
+            <a class="btn btn-primary" href="/profile/build/{{ game.id }}">Add Build</a>
+          </td>
+        </tr>
+          {% for spec in specs %}
+            {% if game.game == spec.game %}
+            <tr>
+              <td>{{ spec.role }} {{ spec.spec }}</td>
+              <td>
+                <a class="btn btn-primary" href="/profile/edit/build/{{ spec.id }}/">Edit</a>
+                <a class="btn btn-primary" href="/profile/?deletebuild={{ spec.id }}">Delete</a>
+              </td>
+            </tr>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </table>
+      <table class="row justify-content-center">
+        <th>
+          <a class="btn btn-primary" href="/profile/game/">Add Game</a>
+        </th>
+      </table>
+      {% endif %}
+    </div>
+  </div>
+</body>
+
+</html>
